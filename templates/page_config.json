@@ -1,0 +1,40 @@
+{
+  "restaurant_landing": {
+    "texts": {
+      "hero_title": "Generate catchy hero title for {restaurant_name}",
+      "hero_subtitle": "Write compelling subtitle emphasizing {cuisine} and {location}",
+      "about": "Write about section for restaurant, 150 words",
+      "menu_intro": "Create menu introduction",
+      "cta_primary": "Book a table CTA text",
+      "cta_secondary": "View menu CTA text"
+    },
+    "images": {
+      "hero": "Restaurant exterior at golden hour, inviting atmosphere",
+      "interior_1": "Elegant dining room interior",
+      "interior_2": "Bar area with ambient lighting",
+      "dish_1": "Signature dish, beautifully plated",
+      "dish_2": "Dessert presentation",
+      "chef": "Head chef portrait, professional kitchen background"
+    },
+    "seo": {
+      "title": "{restaurant_name} - Best {cuisine} in {location}",
+      "description": "Experience exceptional {cuisine} at {restaurant_name}. Reserve your table today!",
+      "keywords": ["{cuisine} restaurant", "{location} dining", "fine dining"]
+    }
+  },
+  "business_about": {
+    "texts": {
+      "hero": "About {company_name} hero text",
+      "mission": "Company mission statement",
+      "values": "Core values description",
+      "history": "Company history, founding story",
+      "team_intro": "Team introduction text"
+    },
+    "images": {
+      "hero": "Office environment, team collaboration",
+      "team": "Full team photo, professional setting",
+      "culture_1": "Company culture photo 1",
+      "culture_2": "Company culture photo 2"
+    }
+  }
+}

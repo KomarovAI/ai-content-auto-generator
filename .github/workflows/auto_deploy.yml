@@ -1,0 +1,70 @@
+name: Auto Content Generation & Deploy
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  generate-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Cache dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Run content generation
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        STABILITY_API_KEY: ${{ secrets.STABILITY_API_KEY }}
+      run: |
+        python scripts/main.py
+    
+    - name: Run tests
+      run: |
+        pytest tests/ -v
+    
+    - name: Generate reports
+      run: |
+        echo "Generation completed successfully"
+    
+    - name: Deploy to production
+      if: github.ref == 'refs/heads/main'
+      run: |
+        echo "Deploying to production..."
+        # Add your deployment commands here
+    
+    - name: Notify on success
+      if: success()
+      run: |
+        echo "✅ Content generation and deployment successful!"
+    
+    - name: Notify on failure
+      if: failure()
+      run: |
+        echo "❌ Content generation failed!"

@@ -1,0 +1,22 @@
+{
+  "restaurant": {
+    "description": "Write a compelling description for a modern {cuisine} restaurant in {location}. Focus on ambiance, quality, and unique features. Keep it under 200 words.",
+    "hero_text": "Create an engaging hero section text for {restaurant_name}. Emphasize the dining experience and key differentiators.",
+    "menu_intro": "Write a warm introduction to the menu, highlighting seasonal ingredients and chef expertise."
+  },
+  "business": {
+    "about": "Write a professional 'About Us' section for {company_name}, a {industry} company. Include mission, values, and key achievements.",
+    "services": "Describe {service_name} service in detail, focusing on benefits and value proposition.",
+    "cta": "Create a compelling call-to-action for {goal}. Make it urgent and benefit-focused."
+  },
+  "image_prompts": {
+    "restaurant_interior": "Modern {style} restaurant interior, warm lighting, elegant decor, professional photography",
+    "food_plating": "Beautifully plated {dish_type}, professional food photography, appetizing presentation",
+    "team_photo": "Professional team photo, {team_size} people, corporate environment, friendly atmosphere",
+    "hero_image": "Hero banner image for {business_type} website, professional, high quality"
+  },
+  "seo": {
+    "meta_description": "Generate SEO-optimized meta description for {page_type} page about {topic}. 150-160 characters, include primary keyword.",
+    "title": "Create compelling SEO title for {topic}. Include primary keyword, keep under 60 characters."
+  }
+}
