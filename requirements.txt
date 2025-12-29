@@ -8,6 +8,7 @@ openai>=1.3.0
 google-generativeai>=0.3.0
 anthropic>=0.8.0
 stability-sdk>=0.8.0
+huggingface_hub>=0.20.0  # For HF Inference API
 
 # Data processing
 numpy>=1.24.0
