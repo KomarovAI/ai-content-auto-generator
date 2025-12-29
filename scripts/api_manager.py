@@ -21,6 +21,7 @@ class APIManager:
     - Quota management
     - Rate limiting
     - Failover handling
+    - Hugging Face priority for images
     """
     
     def __init__(self, config: Dict):
@@ -34,13 +35,14 @@ class APIManager:
         
         # Available APIs by type
         self.text_apis = ['openai', 'gemini', 'anthropic']
+        # HF not in list - handled directly in ImageGenerator
         self.image_apis = ['imagen', 'openai', 'stability', 'adobe_firefly']
         
         # Current rotation index
         self.text_index = 0
         self.image_index = 0
         
-        logger.info("APIManager initialized with {} text and {} image APIs".format(
+        logger.info("APIManager initialized with {} text and {} image APIs (+HF)".format(
             len(self.text_apis), len(self.image_apis)
         ))
     
@@ -109,12 +111,12 @@ class APIManager:
     
     def _priority_select(self, api_list: List[str]) -> Optional[str]:
         """Select highest priority API with available quota."""
-        # Priority order based on quality/cost
+        # Priority order: cheaper/free APIs first
         priority_order = {
-            'openai': 1,
-            'anthropic': 2,
-            'gemini': 3,
-            'imagen': 1,
+            'gemini': 1,      # Cheap
+            'openai': 2,      # Mid-cost
+            'anthropic': 3,   # Expensive
+            'imagen': 1,      # Free (within limits)
             'stability': 2,
             'adobe_firefly': 3
         }
@@ -130,14 +132,14 @@ class APIManager:
     
     def _cost_optimized_select(self, api_list: List[str]) -> Optional[str]:
         """Select cheapest API with available quota."""
-        # Cost per request (approximate)
+        # Cost per request (approximate USD)
         cost_map = {
-            'gemini': 0.0001,
-            'openai': 0.002,
-            'anthropic': 0.003,
-            'imagen': 0.0,  # unlimited free
+            'gemini': 0.00005,     # Flash 2.0
+            'openai': 0.002,       # GPT-4o mini
+            'anthropic': 0.003,    # Claude
+            'imagen': 0.0,         # Free tier
             'stability': 0.004,
-            'adobe_firefly': 0.0
+            'adobe_firefly': 0.0   # Free tier
         }
         
         sorted_apis = sorted(api_list, key=lambda x: cost_map.get(x, 999))
@@ -215,8 +217,7 @@ class APIManager:
         Returns:
             API response
         """
-        max_retries = self.config['distribution']['retry_attempts']
-        timeout = self.config['distribution']['timeout']
+        max_retries = self.config.get('distribution', {}).get('retry_attempts', 3)
         
         for attempt in range(max_retries):
             try:
@@ -246,10 +247,11 @@ class APIManager:
 if __name__ == "__main__":
     # Test API manager
     config = {
-        'api_keys': {'openai': 'test', 'gemini': 'test'},
+        'api_keys': {'openai': 'test', 'gemini': 'test', 'huggingface': 'test'},
         'limits': {
             'openai': {'text': 1000, 'image': 50},
-            'gemini': {'flash': 1500}
+            'gemini': {'flash': 1500},
+            'imagen': {'daily': 100}
         },
         'distribution': {
             'retry_attempts': 3,
@@ -263,7 +265,8 @@ if __name__ == "__main__":
     for i in range(10):
         api = manager.get_available_api('text', 'round_robin')
         print(f"Request {i+1}: {api}")
-        manager.record_usage(api)
+        if api:
+            manager.record_usage(api)
     
     # Print stats
     print("\nUsage Stats:")
