@@ -44,6 +44,7 @@ jobs:
         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         STABILITY_API_KEY: ${{ secrets.STABILITY_API_KEY }}
+        HUGGINGFACE_FULLAPI: ${{ secrets.HUGGINGFACE_FULLAPI }}
       run: |
         python scripts/main.py generate-batch \
           --pages '${{ github.event.inputs.pages }}' \
@@ -68,3 +69,7 @@ jobs:
         echo "- **Max Concurrent:** ${{ github.event.inputs.max_concurrent }}" >> $GITHUB_STEP_SUMMARY
         echo "- **Run:** #${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
         echo "- **Status:** ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### 🎨 Image Generation" >> $GITHUB_STEP_SUMMARY
+        echo "- **Primary:** Hugging Face Inference API (free)" >> $GITHUB_STEP_SUMMARY
+        echo "- **Fallback:** DALL-E 3 → Imagen 3 → Stability AI" >> $GITHUB_STEP_SUMMARY
