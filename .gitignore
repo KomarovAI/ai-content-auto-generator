@@ -1,0 +1,71 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+ENV/
+env/
+.venv
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment variables
+.env
+.env.local
+config.yaml
+!config.yaml.example
+
+# Logs
+logs/
+*.log
+
+# Cache
+.cache/
+*.cache
+redis-data/
+
+# Test coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Generated content
+generated/
+output/
+temp/
+
+# API keys
+*_keys.txt
+secrets/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
