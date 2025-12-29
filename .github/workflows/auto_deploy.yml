@@ -40,10 +40,11 @@ jobs:
     
     - name: Generate content
       env:
+        # Text generation APIs
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        STABILITY_API_KEY: ${{ secrets.STABILITY_API_KEY }}
+        # Image generation - HF only
         HUGGINGFACE_FULLAPI: ${{ secrets.HUGGINGFACE_FULLAPI }}
       run: |
         python scripts/main.py generate-batch \
@@ -70,6 +71,7 @@ jobs:
         echo "- **Run:** #${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
         echo "- **Status:** ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
-        echo "### 🎨 Image Generation" >> $GITHUB_STEP_SUMMARY
-        echo "- **Primary:** Hugging Face Inference API (free)" >> $GITHUB_STEP_SUMMARY
-        echo "- **Fallback:** DALL-E 3 → Imagen 3 → Stability AI" >> $GITHUB_STEP_SUMMARY
+        echo "### 🎨 Image Generation (HF-only)" >> $GITHUB_STEP_SUMMARY
+        echo "- **Provider:** Hugging Face Inference API" >> $GITHUB_STEP_SUMMARY
+        echo "- **Models:** SDXL, FLUX.1, OpenJourney, SD 1.5, SD 1.4" >> $GITHUB_STEP_SUMMARY
+        echo "- **Cost:** $0 (100% free)" >> $GITHUB_STEP_SUMMARY
